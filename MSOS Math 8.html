@@ -190,6 +190,7 @@
           <div class="nav-buttons">
             <button class="btn back-btn" onclick="showHome()">← Back</button>
             <button class="btn" onclick="showHandout()">🔬 Science Connection</button>
+            <button class="btn" id="realworld-btn" onclick="showRealWorld()">🎨 Real-World Project</button>
             <button class="btn" onclick="showWorksheet()">Worksheet →</button>
           </div>
         </div>
@@ -207,6 +208,15 @@
           <button class="btn back-btn" onclick="showLesson(currentUnit)">← Back to Lesson</button>
           <h2 style="margin: 20px 0;">🔬 Science Connection</h2>
           <div id="handout-content"></div>
+          <div class="nav-buttons">
+            <button class="btn back-btn" onclick="showLesson(currentUnit)">← Back to Lesson</button>
+            <button class="btn" onclick="showWorksheet()">Worksheet →</button>
+          </div>
+        </div>
+        <div id="realworld-screen" class="screen">
+          <button class="btn back-btn" onclick="showLesson(currentUnit)">← Back to Lesson</button>
+          <h2 style="margin: 20px 0;">🎨 Real-World Project</h2>
+          <div id="realworld-content"></div>
           <div class="nav-buttons">
             <button class="btn back-btn" onclick="showLesson(currentUnit)">← Back to Lesson</button>
             <button class="btn" onclick="showWorksheet()">Worksheet →</button>
@@ -269,7 +279,7 @@ const LESSONS = {
   'real-numbers': `<h2>Real Numbers</h2><p><strong>Rational numbers</strong> can be written as fractions. <strong>Irrational numbers</strong> cannot.</p><h3>Rational Numbers</h3><ul><li>Integers: ..., -2, -1, 0, 1, 2, ...</li><li>Fractions: 1/2, 3/4, −2/3</li><li>Terminating decimals: 0.5, 0.125</li><li>Repeating decimals: 0.333..., 0.666...</li></ul><h3>Irrational Numbers</h3><ul><li>Non-repeating, non-terminating decimals</li><li>π ≈ 3.14159265...</li><li>e ≈ 2.71828...</li><li>√2 ≈ 1.414...</li></ul><h3>Square Roots</h3><p>√9 = 3 (perfect square). √10 ≈ 3.162 (approximation)</p><h3>Real Numbers</h3><p>Set of all rational and irrational numbers. Fills entire number line.</p>`,
   'exponents': `<h2>Exponents & Laws of Exponents</h2><p>An exponent shows repeated multiplication: 2³ = 2 × 2 × 2 = 8</p><h3>Laws of Exponents</h3><ul><li><strong>Product rule:</strong> aᵐ × aⁿ = aᵐ⁺ⁿ</li><li><strong>Quotient rule:</strong> aᵐ ÷ aⁿ = aᵐ⁻ⁿ</li><li><strong>Power rule:</strong> (aᵐ)ⁿ = aᵐⁿ</li><li><strong>Product to power:</strong> (ab)ⁿ = aⁿbⁿ</li></ul><h3>Negative & Zero Exponents</h3><ul><li>a⁰ = 1 (any non-zero number)</li><li>a⁻ⁿ = 1/aⁿ (reciprocal)</li><li>2⁻² = 1/4</li></ul><h3>Examples</h3><p>2² × 2³ = 2⁵ = 32</p><p>3⁵ ÷ 3² = 3³ = 27</p><p>(2²)³ = 2⁶ = 64</p>`,
   'scientific-notation': `<h2>Scientific Notation</h2><p><strong>Scientific notation</strong> writes numbers as a × 10ⁿ where 1 ≤ a < 10</p><h3>Converting to Scientific Notation</h3><p>4,500,000 = 4.5 × 10⁶ (moved decimal 6 places left)</p><p>0.000075 = 7.5 × 10⁻⁵ (moved decimal 5 places right)</p><h3>Converting from Scientific Notation</h3><p>3.2 × 10⁴ = 32,000</p><p>8.1 × 10⁻³ = 0.0081</p><h3>Computing with Scientific Notation</h3><p>(2 × 10⁵) × (3 × 10²) = 6 × 10⁷</p><p>(8 × 10⁶) ÷ (2 × 10³) = 4 × 10³</p><h3>Applications</h3><p>Very large: distances in space. Very small: atomic sizes.</p>`,
-  'unit-conversions': `<h2>Unit Conversions — KHDUdcm</h2><p>The metric system is built on powers of 10, which makes converting between units a matter of moving a decimal point. The <strong>KHDUdcm staircase</strong> shows all the prefixes in order:</p><table style="border-collapse:collapse;width:100%;font-size:0.93em;margin:10px 0;"><tr style="background:#1F3864;color:#fff;"><th style="padding:7px 10px;">K</th><th style="padding:7px 10px;">H</th><th style="padding:7px 10px;">D</th><th style="padding:7px 10px;">U</th><th style="padding:7px 10px;">d</th><th style="padding:7px 10px;">c</th><th style="padding:7px 10px;">m</th></tr><tr style="text-align:center;background:#f2f2f2;"><td style="padding:6px 10px;">Kilo</td><td style="padding:6px 10px;">Hecto</td><td style="padding:6px 10px;">Deca</td><td style="padding:6px 10px;font-weight:bold;">Unit</td><td style="padding:6px 10px;">deci</td><td style="padding:6px 10px;">centi</td><td style="padding:6px 10px;">milli</td></tr><tr style="text-align:center;"><td style="padding:6px 10px;">×1000</td><td style="padding:6px 10px;">×100</td><td style="padding:6px 10px;">×10</td><td style="padding:6px 10px;font-weight:bold;">×1</td><td style="padding:6px 10px;">×0.1</td><td style="padding:6px 10px;">×0.01</td><td style="padding:6px 10px;">×0.001</td></tr><tr style="text-align:center;background:#f2f2f2;"><td style="padding:6px 10px;">10³</td><td style="padding:6px 10px;">10²</td><td style="padding:6px 10px;">10¹</td><td style="padding:6px 10px;font-weight:bold;">10⁰</td><td style="padding:6px 10px;">10⁻¹</td><td style="padding:6px 10px;">10⁻²</td><td style="padding:6px 10px;">10⁻³</td></tr></table><p>The <strong>Unit</strong> column is your base unit — meter (m), gram (g), liter (L), or second (s).</p><p>Memory: <em>"<strong>K</strong>ing <strong>H</strong>enry <strong>D</strong>oesn't <strong>U</strong>sually <strong>d</strong>rink <strong>c</strong>hocolate <strong>m</strong>ilk"</em></p><h3>The One Rule: Count Steps, Move Decimal</h3><ul><li>Moving <strong>right</strong> on the chart (larger to smaller unit) → multiply by 10 per step → decimal moves <strong>right</strong></li><li>Moving <strong>left</strong> on the chart (smaller to larger unit) → divide by 10 per step → decimal moves <strong>left</strong></li></ul><h3>Examples — Length (base unit = meter)</h3><ul><li><strong>3.5 km → m:</strong> K to U = 3 steps right → 3.5 × 1000 = <strong>3500 m</strong></li><li><strong>250 cm → m:</strong> c to U = 2 steps left → 250 ÷ 100 = <strong>2.5 m</strong></li><li><strong>45 mm → cm:</strong> m to c = 1 step left → 45 ÷ 10 = <strong>4.5 cm</strong></li><li><strong>0.8 km → cm:</strong> K to c = 5 steps right → 0.8 × 100,000 = <strong>80,000 cm</strong></li></ul><h3>Examples — Mass (base unit = gram)</h3><ul><li><strong>2.8 kg → g:</strong> K to U = 3 steps right → 2800 g</li><li><strong>500 mg → g:</strong> m to U = 3 steps left → 0.5 g</li><li><strong>1.2 kg → mg:</strong> K to m = 6 steps right → 1,200,000 mg</li></ul><h3>Connection to Scientific Notation</h3><p>Each step on the KHDUdcm chart is one power of 10 — the same relationship you used in scientific notation. Converting 3.5 km to meters is the same as multiplying 3.5 × 10³ = 3500. The skills stack directly.</p><h3>Converting Between Systems (US ↔ Metric)</h3><p>Some useful benchmarks to memorize:</p><ul><li>1 inch = 2.54 cm</li><li>1 mile ≈ 1.609 km</li><li>1 pound ≈ 0.454 kg</li><li>1 gallon ≈ 3.785 L</li></ul>`,
+  'unit-conversions': `<h2>Unit Conversions — KHDUdcm</h2><p>The metric system is built on powers of 10, which makes converting between units a matter of moving a decimal point. The <strong>KHDUdcm staircase</strong> shows all the prefixes in order:</p><table style="border-collapse:collapse;width:100%;font-size:0.93em;margin:10px 0;"><tr style="background:#1F3864;color:#fff;"><th style="padding:7px 10px;">K</th><th style="padding:7px 10px;">H</th><th style="padding:7px 10px;">D</th><th style="padding:7px 10px;">U</th><th style="padding:7px 10px;">d</th><th style="padding:7px 10px;">c</th><th style="padding:7px 10px;">m</th></tr><tr style="text-align:center;background:#f2f2f2;"><td style="padding:6px 10px;">Kilo</td><td style="padding:6px 10px;">Hecto</td><td style="padding:6px 10px;">Deca</td><td style="padding:6px 10px;font-weight:bold;">Unit</td><td style="padding:6px 10px;">deci</td><td style="padding:6px 10px;">centi</td><td style="padding:6px 10px;">milli</td></tr><tr style="text-align:center;"><td style="padding:6px 10px;">×1000</td><td style="padding:6px 10px;">×100</td><td style="padding:6px 10px;">×10</td><td style="padding:6px 10px;font-weight:bold;">×1</td><td style="padding:6px 10px;">×0.1</td><td style="padding:6px 10px;">×0.01</td><td style="padding:6px 10px;">×0.001</td></tr><tr style="text-align:center;background:#f2f2f2;"><td style="padding:6px 10px;">10³</td><td style="padding:6px 10px;">10²</td><td style="padding:6px 10px;">10¹</td><td style="padding:6px 10px;font-weight:bold;">10⁰</td><td style="padding:6px 10px;">10⁻¹</td><td style="padding:6px 10px;">10⁻²</td><td style="padding:6px 10px;">10⁻³</td></tr></table><p>The <strong>Unit</strong> column is your base unit — meter (m), gram (g), liter (L), or second (s).</p><p>Memory: <em>"<strong>K</strong>ing <strong>H</strong>enry <strong>D</strong>oesn't <strong>U</strong>sually <strong>d</strong>rink <strong>c</strong>hocolate <strong>m</strong>ilk"</em></p><h3>The One Rule: Count Steps, Move Decimal</h3><ul><li>Moving <strong>right</strong> on the chart (larger to smaller unit) → multiply by 10 per step → decimal moves <strong>right</strong></li><li>Moving <strong>left</strong> on the chart (smaller to larger unit) → divide by 10 per step → decimal moves <strong>left</strong></li></ul><h3>Examples — Length (base unit = meter)</h3><ul><li><strong>3.5 km → m:</strong> K to U = 3 steps right → 3.5 × 1000 = <strong>3500 m</strong></li><li><strong>250 cm → m:</strong> c to U = 2 steps left → 250 ÷ 100 = <strong>2.5 m</strong></li><li><strong>45 mm → cm:</strong> m to c = 1 step left → 45 ÷ 10 = <strong>4.5 cm</strong></li><li><strong>0.8 km → cm:</strong> K to c = 5 steps right → 0.8 × 100,000 = <strong>80,000 cm</strong></li></ul><h3>Examples — Mass (base unit = gram)</h3><ul><li><strong>2.8 kg → g:</strong> K to U = 3 steps right → 2800 g</li><li><strong>500 mg → g:</strong> m to U = 3 steps left → 0.5 g</li><li><strong>1.2 kg → mg:</strong> K to m = 6 steps right → 1,200,000 mg</li></ul><h3>Connection to Scientific Notation</h3><p>Each step on the KHDUdcm chart is one power of 10 — the same relationship you used in scientific notation. Converting 3.5 km to meters is the same as multiplying 3.5 × 10³ = 3500. The skills stack directly.</p><h3>Converting Between Systems (US ↔ Metric)</h3><p>Some useful benchmarks to memorize:</p><ul><li>1 inch = 2.54 cm</li><li>1 mile ≈ 1.609 km</li><li>1 pound ≈ 0.454 kg</li><li>1 gallon ≈ 3.785 L</li></ul><h3>The Factor-Label Method (Dimensional Analysis)</h3><p>The KHDUdcm staircase is fast for metric conversions, but science classes use a more powerful tool that also works for <em>any</em> conversion — metric to imperial, rates to rates, even chained conversions in chemistry. It is called the <strong>factor-label method</strong> (also called <em>dimensional analysis</em>).</p><h4>The big idea</h4><p>Multiply by fractions equal to <strong>1</strong> — built from a unit equality — so units <strong>cancel</strong> on the way to the answer. Anything you multiply by 1 stays the same value, so the math is always honest.</p><p style="text-align:center;padding:8px;background:#f0f4ff;border-radius:6px;"><strong>1 km = 1000 m</strong> &nbsp; → &nbsp; <strong>1 = 1000 m / 1 km</strong> &nbsp; or &nbsp; <strong>1 = 1 km / 1000 m</strong></p><h4>Step-by-step recipe</h4><ol><li>Write the starting value with its unit.</li><li>Multiply by a "1" fraction whose <em>top</em> has the unit you want, <em>bottom</em> has the unit you want to get rid of.</li><li>Cancel the matching units (cross them out diagonally).</li><li>Multiply the numbers; carry the surviving unit.</li></ol><h4>Worked example — single step</h4><p>Convert <strong>2.5 km</strong> to meters:</p><p style="font-family:monospace;background:#f9fafb;padding:10px;border-left:3px solid #2563eb;">2.5 km × (1000 m / 1 km) = 2500 m</p><p>"km" cancels (one on top, one on bottom). The "m" survives. Numbers: 2.5 × 1000 = 2500.</p><h4>Worked example — chained (rate)</h4><p>Convert <strong>72 km/h</strong> to m/s. Use TWO unit equalities at once:</p><p style="font-family:monospace;background:#f9fafb;padding:10px;border-left:3px solid #2563eb;">72 km/h × (1000 m / 1 km) × (1 h / 3600 s) = 72 × 1000 / 3600 m/s = 20 m/s</p><p>"km" cancels and "h" cancels — leaving m/s. This is exactly the same answer as ÷ 3.6, but the work shows <em>why</em>.</p><h4>Worked example — three-step (medicine)</h4><p>A child weighs <strong>30 kg</strong> and the prescription is <strong>5 mg per kg</strong>. How many <strong>grams</strong> total?</p><p style="font-family:monospace;background:#f9fafb;padding:10px;border-left:3px solid #2563eb;">30 kg × (5 mg / 1 kg) × (1 g / 1000 mg) = 150/1000 g = 0.15 g</p><p>"kg" cancels with "kg", "mg" cancels with "mg". "g" survives.</p><h4>Why this is useful in science</h4><ul><li>It works for <strong>any</strong> conversion — not just powers of ten.</li><li>It catches errors: if your units do not cancel, you set up the fraction upside-down.</li><li>It is the same method used in chemistry (mole conversions), physics (unit checks), and medicine (dose calculations).</li><li>It pairs with KHDUdcm: use the staircase for quick metric jumps, factor-label for everything else.</li></ul>`,
   'slope': `<h2>Slope & Rate of Change</h2><p><strong>Slope</strong> measures steepness of a line.</p><h3>Slope Formula</h3><p>m = (y₂ - y₁) / (x₂ - x₁)</p><h3>Finding Slope from Points</h3><p>Points (2, 3) and (5, 9)</p><p>m = (9 - 3) / (5 - 2) = 6 / 3 = 2</p><h3>Interpreting Slope</h3><ul><li>Positive slope: line goes up</li><li>Negative slope: line goes down</li><li>Zero slope: horizontal line</li><li>Undefined slope: vertical line</li></ul><h3>Rate of Change</h3><p>Slope represents rate: 2 means y increases 2 units per 1 unit increase in x</p><h3>Real-World Uses</h3><p>Speed (miles per hour), cost per item, temperature change.</p>`,
   'linear-equations': `<h2>Linear Equations</h2><p>Equations that form straight lines when graphed.</p><h3>Standard Form</h3><p>Ax + By = C</p><h3>Slope-Intercept Form</h3><p>y = mx + b where m is slope, b is y-intercept</p><h3>Solving Equations</h3><p>2x + 5 = 13</p><ol><li>Subtract 5: 2x = 8</li><li>Divide by 2: x = 4</li></ol><h3>Special Cases</h3><p>No solution: 2x + 1 = 2x + 3 (never true)</p><p>Infinite solutions: 2x + 1 = 2x + 1 (always true)</p><h3>Applications</h3><p>Cost equations, distance problems, financial planning.</p>`,
   'systems': `<h2>Systems of Equations</h2><p>Two or more equations solved together. Solutions satisfy all equations.</p><h3>Graphing Method</h3><p>Graph both lines. Solution is intersection point.</p><h3>Substitution Method</h3><p>y = 2x and x + y = 6</p><ol><li>Substitute: x + 2x = 6 → 3x = 6</li><li>Solve: x = 2, then y = 4</li></ol><h3>Elimination Method</h3><p>2x + y = 5 and x - y = 1</p><ol><li>Add equations: 3x = 6</li><li>Solve: x = 2, then y = 1</li></ol><h3>Solution Types</h3><ul><li>One solution: lines intersect</li><li>No solution: parallel lines</li><li>Infinite solutions: same line</li></ul>`,
@@ -805,6 +815,8 @@ function showLesson(unitId) {
   document.getElementById('lesson-screen').classList.add('active');
   const unit = UNITS.find(u => u.id === unitId);
   document.getElementById('lesson-content').innerHTML = LESSONS[unitId] + resourceCardHTML(unit);
+  const rwBtn = document.getElementById('realworld-btn');
+  if (rwBtn) rwBtn.style.display = (REALWORLD_8 && REALWORLD_8[unitId]) ? '' : 'none';
   renderSidebar();
   setTopbar();
 }
@@ -1128,6 +1140,153 @@ In this project you will build a dual calculator that uses both tools on real en
   },
 };
 
+  const REALWORLD_8 = {
+    'slope': {
+      title: `Wheelchair Ramp / Skate Ramp Designer`,
+      banner: `🎨 Real-World Math — Engineering & Slope`,
+      mission: `The Americans with Disabilities Act requires wheelchair ramps to have a slope no steeper than 1:12. Design and draw a ramp for a real entrance with a 30-inch step up.`,
+      steps: [
+      `A 30-inch rise at slope 1:12 needs a run of 30 x 12 = 360 inches = 30 feet of horizontal ramp.`,
+      `Compute the actual slope as a decimal and a percent: 1/12 ≈ 0.0833 = 8.33%.`,
+      `Draw the ramp on graph paper at scale 1 inch = 1 foot. Show: the rise, the run, the angle.`,
+      `Use the Pythagorean theorem to compute the LENGTH of the ramp surface (hypotenuse). a² + b² = c². The ramp length is the c value.`,
+      `Convert your drawing to a skate ramp: a quarter-pipe with a 4-ft rise. What slope ratio does a 6-ft long ramp give? Express as fraction, decimal, and percent.`,
+      `Bonus: ADA also requires a level "landing" every 30 feet. If a building has a 5-ft step up, is one landing enough? Show the math.`
+      ],
+      deliverable: `Submit your scaled ramp drawing with the rise, run, ramp length, slope ratio, slope decimal, and slope percent all labeled. Bonus: the skate-ramp comparison.`,
+      reflect: [
+      `A skate-ramp designer might use a 1:1 slope. A wheelchair ramp uses 1:12. Why are these so different?`,
+      `If you double the rise but keep the slope at 1:12, what happens to the run? What about the ramp’s diagonal length?`
+      ]
+    },
+    'linear-equations': {
+      title: `Phone Plan Comparator`,
+      banner: `🎨 Real-World Math — Smart Spending & Linear Models`,
+      mission: `Two cell phone plans look similar but cost very differently over time. Build linear equations to find the BREAK-EVEN month and decide which is cheaper for your usage.`,
+      steps: [
+      `Plan A: $40 per month, $200 phone (paid up front). Total cost after m months: y = 40m + 200.`,
+      `Plan B: $60 per month, free phone, $50 activation fee. Total cost: y = 60m + 50.`,
+      `Set the equations equal: 40m + 200 = 60m + 50. Solve for m. This is the break-even month.`,
+      `Compute total cost for both plans at m = 6, 12, 18, 24 months. Make a table.`,
+      `On graph paper, plot both lines on the same axes. Mark the intersection point.`,
+      `Bonus: find a 3rd plan online (T-Mobile, Mint, US Cellular) and compute its break-even with both A and B.`
+      ],
+      deliverable: `Submit the equations, the break-even calculation, the cost table, and the graph. Write 2 sentences: which plan would YOU choose, and why?`,
+      reflect: [
+      `Plan B has a higher monthly cost but a cheaper start. Which plan is better for a 6-month visit? For a 4-year contract?`,
+      `On the graph, the break-even is the INTERSECTION of two lines. Why does that point answer "when do they cost the same?"`
+      ]
+    },
+    'systems': {
+      title: `Boba Tea Shop Inventory`,
+      banner: `🎨 Real-World Math — Business & Systems of Equations`,
+      mission: `A boba shop sold 80 drinks today and made $360. Small drinks are $4 each, large are $5. How many of each were sold? Set up and solve a system of equations.`,
+      steps: [
+      `Let s = small drinks, L = large drinks. Write 2 equations: s + L = 80 (total drinks); 4s + 5L = 360 (total revenue).`,
+      `Solve by SUBSTITUTION: from equation 1, s = 80 - L. Substitute into equation 2.`,
+      `Solve by ELIMINATION: multiply equation 1 by 4 and subtract from equation 2 to eliminate s.`,
+      `Verify both methods give the same answer.`,
+      `Now create your OWN scenario. A bakery sells cookies ($2) and brownies ($3). 50 items sold, $112 revenue. How many of each?`,
+      `Bonus: write a 3-variable system. The bakery also sells $4 muffins. 60 items, $190, twice as many cookies as muffins. Solve.`
+      ],
+      deliverable: `Submit both methods of solution for the boba problem, the solution to your own bakery problem, and the bonus 3-variable system.`,
+      reflect: [
+      `Substitution and elimination both solve the same system. When is one easier than the other?`,
+      `Could a system have NO solution? Two parallel lines never meet. Give an example with a boba context.`
+      ]
+    },
+    'pythagorean': {
+      title: `TV Diagonal Decoder`,
+      banner: `🎨 Real-World Math — Pythagorean Theorem in Real Products`,
+      mission: `A "55-inch TV" measures 55 inches diagonally. But what are the real width and height? Use the Pythagorean theorem and the 16:9 ratio to find out.`,
+      steps: [
+      `Modern TVs use a 16:9 aspect ratio. So width / height = 16 / 9. Set width = 16k and height = 9k for some scaling factor k.`,
+      `Apply Pythagoras: (16k)² + (9k)² = 55². Simplify: 256k² + 81k² = 3025. 337 k² = 3025. Solve for k.`,
+      `Find width = 16k and height = 9k.`,
+      `Repeat for a 65-inch TV and a 75-inch TV. Make a table: diagonal | width | height | viewing area.`,
+      `Compute the AREA in sq inches. A 75-inch TV has how many MORE square inches than a 55-inch?`,
+      `Bonus: 4:3 was the old TV ratio. Does a 55-inch 4:3 TV have more or less SCREEN AREA than a 55-inch 16:9? Compute both and compare.`
+      ],
+      deliverable: `Submit your three TV calculations (55, 65, 75) with widths, heights, and areas. Plus the 4:3 vs 16:9 comparison.`,
+      reflect: [
+      `A 65-inch TV has only an 18% bigger diagonal than a 55-inch (10/55), but the area is much more than 18% larger. Compute the area increase as a percent. Why is it bigger?`,
+      `Why does the Pythagorean theorem connect the diagonal and the side lengths of a rectangle? Draw the rectangle and the diagonal: what shape do you see?`
+      ]
+    },
+    'volume': {
+      title: `Surfboard Volume Builder`,
+      banner: `🎨 Real-World Math — Surfing & Volume`,
+      mission: `Surfboards are sold by their VOLUME in liters. Use prism approximations to compute the volume of three boards (a longboard, a shortboard, a fish), and pick the right one for your weight.`,
+      steps: [
+      `A surfboard is roughly a flattened prism. Approximate it as: volume ≈ length x width x thickness x 0.55 (the 0.55 accounts for tapered ends).`,
+      `Compute volumes (in cubic inches) for 3 boards: Longboard: 9’6" x 22.5" x 3"; Shortboard: 6’2" x 19" x 2.4"; Fish: 5’8" x 21" x 2.5".`,
+      `Convert cubic inches to LITERS (1 in³ = 0.01639 L). Round to 1 decimal place.`,
+      `A general rule: surfers want the volume to roughly match their body weight in pounds, reduced by a skill-level factor (beginners 1.0, intermediate 0.7, advanced 0.5). For a 150 lb beginner, target 150 L; intermediate, 105 L; advanced, 75 L.`,
+      `Match the 3 boards to skill levels.`,
+      `Bonus: design YOUR ideal board. Pick a length, width, thickness so the volume matches your weight class.`
+      ],
+      deliverable: `Submit your 3-board volume table (cubic in and liters), your skill-level matching, and your custom board design with all dimensions.`,
+      reflect: [
+      `If you double the LENGTH of a board, the volume also doubles. If you double the WIDTH, volume doubles. If you double ALL three dimensions, what happens?`,
+      `Why is more volume usually easier for a beginner? Tie this to physics (buoyancy is volume-dependent).`
+      ]
+    },
+    'functions': {
+      title: `Roller Coaster Designer`,
+      banner: `🎨 Real-World Math — Functions & Coaster Physics`,
+      mission: `A roller coaster’s elevation along its track must always be a FUNCTION of distance (one elevation per distance — you can’t be at two heights at once). Design a coaster on graph paper, label which segments are functions and which are not.`,
+      steps: [
+      `On graph paper, draw a side view of a coaster track. x-axis = distance along the track, y-axis = elevation in feet. Make the track interesting: one big drop, one loop, one helix turn.`,
+      `Mark on your drawing: which sections PASS the vertical-line test (are functions) and which FAIL (are not). Loops and helices fail; uphills, downhills, and flat sections pass.`,
+      `Identify each "function piece" as linear, increasing, decreasing, or constant. Label each.`,
+      `Pick ONE linear segment. Compute its slope (rise / run). Write its equation y = mx + b.`,
+      `Build a domain-and-range table for each function piece: input distance range, output elevation range.`,
+      `Bonus: design the coaster so that the entire track (no loops!) is a single function. How does this constraint change your design?`
+      ],
+      deliverable: `Submit your annotated coaster drawing with function/not-function labels, the linear-segment equation, the domain-range table, and the bonus single-function version.`,
+      reflect: [
+      `Why does every input have at most one output in a function? What does this rule mean physically for a coaster?`,
+      `A loop is NOT a function of distance. But a coaster can still HAVE loops. How? (Hint: think about parameterization — use TIME as input.)`
+      ]
+    },
+    'transformations': {
+      title: `Hawaiian Tessellation Art`,
+      banner: `🎨 Real-World Math — Art & Geometric Transformations`,
+      mission: `Tessellations cover a plane with a single shape, no gaps, no overlaps. Design an Escher-style tessellation using a Hawaiian theme (sea turtle, hibiscus, wave) using rigid transformations.`,
+      steps: [
+      `Start with a square or hexagon as your base tile. Cut a curve out of one side; tape it onto the OPPOSITE side (translation). The new tile still tessellates.`,
+      `Now do a rotation: cut a curve out of one side; rotate it 90° and tape it to the adjacent side.`,
+      `On the tile, draw a Hawaiian image (turtle, hibiscus, wave). The shape edges should suggest the form.`,
+      `Trace your tile 12 times on a piece of paper, fitting it together. Use the tile and its transformations consistently.`,
+      `For each tile in the tessellation, identify which TRANSFORMATION moved it from the starting tile: translation, rotation, reflection, or glide reflection.`,
+      `Color the result. Use 4 colors so no adjacent tiles share a color (the Four-Color Theorem says this is always possible).`
+      ],
+      deliverable: `Submit (1) your tile template (the original cut shape with image on it) and (2) the finished colored tessellation, plus a sheet labeling each tile’s transformation.`,
+      reflect: [
+      `Why does the "cut and tape opposite side" trick produce a shape that still tessellates? Connect this to the rigid-motion property of translation.`,
+      `Squares and hexagons tessellate, but pentagons (regular 5-sided) do NOT. Why? (Hint: 360° / interior angle should be a whole number.)`
+      ]
+    },
+    'scatter-plots': {
+      title: `Sleep vs. Test Scores Investigation`,
+      banner: `🎨 Real-World Math — Personal Data & Correlation`,
+      mission: `Does more sleep mean better test scores? Run a personal experiment for 2 weeks: log your sleep and your performance, then plot and analyze.`,
+      steps: [
+      `For 14 nights, log: hours of sleep | next-day quiz/homework score (or self-rated focus 1 to 10).`,
+      `On graph paper, plot a scatter plot. x-axis = sleep hours, y-axis = score.`,
+      `Eyeball a "line of best fit" through the cluster.`,
+      `Compute the slope of your line of best fit by picking two points on it. Interpret: how much does the score change per extra hour of sleep?`,
+      `Identify the correlation: positive, negative, none, or strong/weak. Justify.`,
+      `Bonus: pool data with 4 classmates (60+ nights). Replot. Is the correlation stronger or weaker with more data?`
+      ],
+      deliverable: `Submit your data log, scatter plot with line of best fit, the slope calculation and interpretation, and your correlation classification.`,
+      reflect: [
+      `Correlation does NOT prove causation. List 2 OTHER reasons sleep and test scores might both rise on the same days that aren’t "sleep causes the score."`,
+      `Why is a 14-day sample small? How might pooling with classmates change the picture?`
+      ]
+    },
+  };
+
 const ANSWER_KEYS_8 = {
   'real-numbers': 'Engineering_Precision_Numbers.xlsx',
   'exponents': 'Inverse_Square_Law_Exponents.xlsx',
@@ -1181,6 +1340,33 @@ function showHandout() {
         ${h.deliverable}
       </div>
       ${answerKeyHtml}
+      <div class="handout-reflect">
+        <strong>💭 Reflection Questions:</strong>
+        <ol>${reflectHtml}</ol>
+      </div>
+    </div>`;
+}
+
+function showRealWorld() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('realworld-screen').classList.add('active');
+  const h = REALWORLD_8[currentUnit];
+  if (!h) {
+    return;
+  }
+  const stepsHtml = h.steps.map(s => `<li>${s}</li>`).join('');
+  const reflectHtml = h.reflect.map((r,i) => `<li>${r}</li>`).join('');
+  document.getElementById('realworld-content').innerHTML = `
+    <div class="handout-card">
+      <h3>${h.title}</h3>
+      <div class="handout-science">${h.banner}</div>
+      <div class="handout-mission">${h.mission}</div>
+      <p><strong>📋 Step-by-Step Instructions</strong></p>
+      <ol class="handout-steps">${stepsHtml}</ol>
+      <div class="handout-deliverable">
+        <strong>🎯 What to Submit:</strong>
+        ${h.deliverable}
+      </div>
       <div class="handout-reflect">
         <strong>💭 Reflection Questions:</strong>
         <ol>${reflectHtml}</ol>
